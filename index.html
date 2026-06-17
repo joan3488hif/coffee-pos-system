@@ -2,9 +2,9 @@
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>Coffee POS</title>
+<title>Coffee POS Mobile</title>
 
 <style>
 
@@ -13,6 +13,9 @@
 --card:#FFFFFF;
 --brown:#6F4E37;
 --dark:#3B2B20;
+--light:#C8B6A6;
+--danger:#D9534F;
+--success:#5CB85C;
 }
 
 *{
@@ -25,90 +28,130 @@ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
 body{
 background:var(--bg);
 padding-bottom:90px;
-}
-
-.header{
-padding:30px 24px;
-}
-
-.title{
-font-size:34px;
-font-weight:700;
 color:var(--dark);
 }
 
-.subtitle{
-margin-top:8px;
-color:#8A7B6F;
+.page{
+display:none;
+padding:20px;
 }
 
-.cards{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:16px;
-padding:0 24px;
+.page.active{
+display:block;
+}
+
+.title{
+font-size:30px;
+font-weight:700;
+margin-bottom:6px;
+}
+
+.subtitle{
+color:#8A7B6F;
+margin-bottom:20px;
 }
 
 .card{
 background:white;
-padding:24px;
-border-radius:22px;
-box-shadow:0 8px 24px rgba(0,0,0,.06);
+border-radius:20px;
+padding:18px;
+margin-bottom:15px;
+box-shadow:0 6px 20px rgba(0,0,0,.06);
 }
 
-.card-label{
-font-size:14px;
-color:#888;
+.stats{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
 }
 
-.card-value{
-font-size:36px;
+.stat-value{
+font-size:28px;
 font-weight:700;
-margin-top:10px;
-color:var(--dark);
+margin-top:8px;
 }
 
-.section{
-padding:24px;
+input,
+textarea{
+width:100%;
+padding:14px;
+border:1px solid #ddd;
+border-radius:12px;
+margin-bottom:12px;
+font-size:16px;
 }
 
-.section h2{
-margin-bottom:16px;
-color:var(--dark);
+button{
+border:none;
+cursor:pointer;
+}
+
+.btn{
+width:100%;
+padding:14px;
+border-radius:14px;
+font-size:16px;
+font-weight:600;
+}
+
+.btn-primary{
+background:var(--brown);
+color:white;
+}
+
+.btn-danger{
+background:var(--danger);
+color:white;
+}
+
+.btn-success{
+background:var(--success);
+color:white;
+}
+
+.product-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+}
+
+.product-card{
+background:white;
+padding:16px;
+border-radius:18px;
+box-shadow:0 6px 20px rgba(0,0,0,.06);
+}
+
+.product-name{
+font-weight:700;
+font-size:18px;
+}
+
+.product-price{
+margin-top:8px;
+color:var(--brown);
+}
+
+.stock-low{
+color:red;
+font-size:13px;
+margin-top:5px;
+}
+
+.cart-item{
+background:white;
+padding:14px;
+border-radius:16px;
+margin-bottom:10px;
+box-shadow:0 4px 12px rgba(0,0,0,.05);
 }
 
 .order-card{
 background:white;
-padding:18px;
-border-radius:18px;
+padding:15px;
+border-radius:16px;
 margin-bottom:12px;
-box-shadow:0 8px 24px rgba(0,0,0,.05);
-}
-
-.order-no{
-font-weight:700;
-color:var(--dark);
-}
-
-.order-date{
-margin-top:8px;
-font-size:14px;
-color:#8A7B6F;
-}
-
-.order-total{
-margin-top:8px;
-font-size:22px;
-font-weight:700;
-color:var(--dark);
-}
-
-.empty{
-background:white;
-padding:20px;
-border-radius:18px;
-text-align:center;
-color:#8A7B6F;
+box-shadow:0 4px 12px rgba(0,0,0,.05);
 }
 
 .bottom-nav{
@@ -116,19 +159,18 @@ position:fixed;
 bottom:0;
 left:0;
 right:0;
-height:72px;
+height:75px;
 background:white;
 display:flex;
 justify-content:space-around;
 align-items:center;
-box-shadow:0 -2px 20px rgba(0,0,0,.08);
+box-shadow:0 -2px 15px rgba(0,0,0,.08);
 }
 
-.bottom-nav a{
-text-decoration:none;
+.bottom-nav button{
+background:none;
+font-size:13px;
 color:var(--brown);
-font-size:14px;
-font-weight:600;
 display:flex;
 flex-direction:column;
 align-items:center;
@@ -139,155 +181,469 @@ font-size:24px;
 margin-bottom:4px;
 }
 
+.total-box{
+position:sticky;
+bottom:85px;
+background:white;
+padding:15px;
+border-radius:16px;
+margin-top:15px;
+box-shadow:0 4px 12px rgba(0,0,0,.08);
+}
+
+.member-badge{
+display:inline-block;
+padding:4px 8px;
+background:#EADBC8;
+border-radius:8px;
+font-size:12px;
+margin-top:6px;
+}
+
 </style>
 </head>
 
 <body>
 
-<div class="header">
+<!-- Dashboard -->
+
+<div id="dashboardPage" class="page active">
 
 <div class="title">
 ☕ Coffee POS
 </div>
 
 <div class="subtitle">
-今天的營運概況
+今日營運概況
 </div>
 
-</div>
-
-<div class="cards">
+<div class="stats">
 
 <div class="card">
-
-<div class="card-label">
-今日營收
-</div>
-
-<div class="card-value" id="sales">
+<div>今日營收</div>
+<div id="todaySales" class="stat-value">
 NT$0
 </div>
-
 </div>
 
 <div class="card">
-
-<div class="card-label">
-訂單數量
-</div>
-
-<div class="card-value" id="orders">
+<div>今日訂單</div>
+<div id="todayOrders" class="stat-value">
 0
 </div>
-
 </div>
 
 <div class="card">
-
-<div class="card-label">
-商品數量
-</div>
-
-<div class="card-value" id="products">
+<div>商品數量</div>
+<div id="productCount" class="stat-value">
 0
 </div>
+</div>
 
+<div class="card">
+<div>低庫存</div>
+<div id="lowStockCount" class="stat-value">
+0
+</div>
 </div>
 
 </div>
 
-<div class="section">
+</div>
 
-<h2>
-最近訂單
+<!-- POS -->
+
+<div id="posPage" class="page">
+
+<div class="title">
+🛒 收銀
+</div>
+
+<div id="productGrid" class="product-grid"></div>
+
+<br>
+
+<textarea
+id="orderNote"
+rows="3"
+placeholder="訂單備註（少冰、燕麥奶、門市自取...）">
+</textarea>
+
+<div id="cartList"></div>
+
+<div class="total-box">
+
+<h2 id="cartTotal">
+NT$0
 </h2>
 
-<div id="recentOrders"></div>
+<br>
+
+<button
+class="btn btn-success"
+onclick="checkout()">
+完成結帳
+</button>
 
 </div>
+
+</div>
+
+<!-- 商品管理 -->
+
+<div id="productPage" class="page">
+
+<div class="title">
+📦 商品管理
+</div>
+
+<input
+id="newName"
+placeholder="商品名稱">
+
+<input
+id="newPrice"
+type="number"
+placeholder="一般售價">
+
+<input
+id="newMemberPrice"
+type="number"
+placeholder="會員價">
+
+<input
+id="newStock"
+type="number"
+placeholder="庫存">
+
+<button
+class="btn btn-primary"
+onclick="addProduct()">
+新增商品
+</button>
+
+<br><br>
+
+<div id="productManageList"></div>
+
+</div>
+
+<!-- 訂單管理 -->
+
+<div id="orderPage" class="page">
+
+<div class="title">
+📋 訂單管理
+</div>
+
+<div id="orderList"></div>
+
+</div>
+
+<!-- 底部導航 -->
 
 <div class="bottom-nav">
 
-<a href="index.html">
+<button onclick="showPage('dashboardPage')">
 <span>🏠</span>
 首頁
-</a>
+</button>
 
-<a href="pos.html">
+<button onclick="showPage('posPage')">
 <span>🛒</span>
 收銀
-</a>
+</button>
 
-<a href="products.html">
+<button onclick="showPage('productPage')">
 <span>📦</span>
 商品
-</a>
+</button>
 
-<a href="orders.html">
+<button onclick="showPage('orderPage')">
 <span>📋</span>
 訂單
-</a>
+</button>
 
 </div>
-
 <script>
 
-const products =
-JSON.parse(localStorage.getItem("products"))
-|| [];
+let products =
+JSON.parse(
+localStorage.getItem("products")
+) || [
 
-const orders =
-JSON.parse(localStorage.getItem("orders"))
-|| [];
+{
+id:1,
+name:"美式咖啡",
+price:120,
+memberPrice:100,
+stock:50
+},
+
+{
+id:2,
+name:"拿鐵",
+price:150,
+memberPrice:130,
+stock:40
+},
+
+{
+id:3,
+name:"卡布奇諾",
+price:150,
+memberPrice:130,
+stock:30
+}
+
+];
+
+let orders =
+JSON.parse(
+localStorage.getItem("orders")
+) || [];
+
+let cart = [];
+
+saveProducts();
+
+renderDashboard();
+renderProducts();
+renderProductManage();
+renderOrders();
+
+function saveProducts(){
+
+localStorage.setItem(
+"products",
+JSON.stringify(products)
+);
+
+}
+
+function saveOrders(){
+
+localStorage.setItem(
+"orders",
+JSON.stringify(orders)
+);
+
+}
+
+function showPage(pageId){
+
+document
+.querySelectorAll(".page")
+.forEach(page=>{
+
+page.classList.remove("active");
+
+});
+
+document
+.getElementById(pageId)
+.classList.add("active");
+
+if(pageId==="dashboardPage"){
+renderDashboard();
+}
+
+if(pageId==="productPage"){
+renderProductManage();
+}
+
+if(pageId==="orderPage"){
+renderOrders();
+}
+
+}
+
+function renderDashboard(){
 
 let sales = 0;
 
 orders.forEach(order=>{
+
 sales += order.total;
+
 });
 
-document.getElementById("sales").innerHTML =
-"NT$" + sales.toLocaleString();
+const lowStock =
+products.filter(
+item=>item.stock <= 5
+);
 
-document.getElementById("orders").innerHTML =
+document.getElementById(
+"todaySales"
+).innerHTML =
+"NT$"+sales;
+
+document.getElementById(
+"todayOrders"
+).innerHTML =
 orders.length;
 
-document.getElementById("products").innerHTML =
+document.getElementById(
+"productCount"
+).innerHTML =
 products.length;
 
-const recent =
-document.getElementById("recentOrders");
+document.getElementById(
+"lowStockCount"
+).innerHTML =
+lowStock.length;
 
-if(orders.length===0){
+}
 
-recent.innerHTML = `
-<div class="empty">
-目前尚無訂單
-</div>
-`;
+function addProduct(){
 
-}else{
+const name =
+document.getElementById(
+"newName"
+).value.trim();
 
-const latest =
-orders.slice(-5).reverse();
+const price =
+parseInt(
+document.getElementById(
+"newPrice"
+).value
+);
 
-latest.forEach(order=>{
+const memberPrice =
+parseInt(
+document.getElementById(
+"newMemberPrice"
+).value
+);
 
-recent.innerHTML += `
+const stock =
+parseInt(
+document.getElementById(
+"newStock"
+).value
+);
 
-<div class="order-card">
+if(
+!name ||
+!price ||
+!memberPrice ||
+stock < 0
+){
 
-<div class="order-no">
-${order.orderNo}
-</div>
+alert("請完整輸入商品資料");
 
-<div class="order-date">
-${order.date}
-</div>
+return;
 
-<div class="order-total">
-NT$${order.total}
-</div>
+}
+
+products.push({
+
+id:Date.now(),
+
+name:name,
+
+price:price,
+
+memberPrice:memberPrice,
+
+stock:stock
+
+});
+
+saveProducts();
+
+renderProducts();
+
+renderProductManage();
+
+document.getElementById(
+"newName"
+).value="";
+
+document.getElementById(
+"newPrice"
+).value="";
+
+document.getElementById(
+"newMemberPrice"
+).value="";
+
+document.getElementById(
+"newStock"
+).value="";
+
+}
+
+function deleteProduct(id){
+
+if(
+!confirm("確定刪除商品？")
+){
+return;
+}
+
+products =
+products.filter(
+item=>item.id !== id
+);
+
+saveProducts();
+
+renderProducts();
+
+renderProductManage();
+
+}
+
+function renderProductManage(){
+
+const list =
+document.getElementById(
+"productManageList"
+);
+
+list.innerHTML = "";
+
+products.forEach(product=>{
+
+list.innerHTML += `
+
+<div class="card">
+
+<b>${product.name}</b>
+
+<br><br>
+
+一般價：
+NT$${product.price}
+
+<br>
+
+會員價：
+NT$${product.memberPrice}
+
+<br>
+
+庫存：
+${product.stock}
+
+${
+product.stock <=5
+?
+'<div class="stock-low">⚠️ 庫存不足</div>'
+:
+''
+}
+
+<br><br>
+
+<button
+class="btn btn-danger"
+onclick="deleteProduct(${product.id})">
+
+刪除商品
+
+</button>
 
 </div>
 
@@ -296,6 +652,421 @@ NT$${order.total}
 });
 
 }
+
+</script>
+<script>
+
+function renderProducts(){
+
+const grid =
+document.getElementById(
+"productGrid"
+);
+
+grid.innerHTML = "";
+
+products.forEach(product=>{
+
+grid.innerHTML += `
+
+<div class="product-card">
+
+<div class="product-name">
+${product.name}
+</div>
+
+<div class="product-price">
+一般價 NT$${product.price}
+</div>
+
+<div class="product-price">
+會員價 NT$${product.memberPrice}
+</div>
+
+<div style="margin-top:6px;">
+庫存：${product.stock}
+</div>
+
+${
+product.stock <= 0
+?
+'<div class="stock-low">已售完</div>'
+:
+''
+}
+
+<br>
+
+<button
+class="btn btn-primary"
+onclick="addToCart(${product.id})"
+${product.stock<=0 ? 'disabled' : ''}>
+
+加入購物車
+
+</button>
+
+</div>
+
+`;
+
+});
+
+}
+
+function addToCart(id){
+
+const product =
+products.find(
+item=>item.id===id
+);
+
+if(!product) return;
+
+if(product.stock<=0){
+
+alert("庫存不足");
+
+return;
+
+}
+
+const existing =
+cart.find(
+item=>item.id===id
+);
+
+if(existing){
+
+existing.qty++;
+
+}else{
+
+cart.push({
+
+id:product.id,
+
+name:product.name,
+
+price:product.price,
+
+memberPrice:product.memberPrice,
+
+qty:1,
+
+member:false
+
+});
+
+}
+
+renderCart();
+
+}
+
+function toggleMember(id){
+
+const item =
+cart.find(
+i=>i.id===id
+);
+
+if(!item) return;
+
+item.member = !item.member;
+
+renderCart();
+
+}
+
+function removeCart(id){
+
+cart =
+cart.filter(
+item=>item.id!==id
+);
+
+renderCart();
+
+}
+
+function renderCart(){
+
+const list =
+document.getElementById(
+"cartList"
+);
+
+list.innerHTML="";
+
+let total = 0;
+
+cart.forEach(item=>{
+
+const price =
+item.member
+?
+item.memberPrice
+:
+item.price;
+
+total +=
+price * item.qty;
+
+list.innerHTML += `
+
+<div class="cart-item">
+
+<b>${item.name}</b>
+
+<br>
+
+數量：
+${item.qty}
+
+<br>
+
+價格：
+NT$${price}
+
+<br><br>
+
+<button
+class="btn btn-primary"
+onclick="toggleMember(${item.id})">
+
+${item.member ? '會員價' : '一般價'}
+
+</button>
+
+<br><br>
+
+<button
+class="btn btn-danger"
+onclick="removeCart(${item.id})">
+
+刪除
+
+</button>
+
+</div>
+
+`;
+
+});
+
+document.getElementById(
+"cartTotal"
+).innerHTML =
+"NT$" + total;
+
+}
+
+function checkout(){
+
+if(cart.length===0){
+
+alert("購物車是空的");
+
+return;
+
+}
+
+let total = 0;
+
+cart.forEach(item=>{
+
+const price =
+item.member
+?
+item.memberPrice
+:
+item.price;
+
+total +=
+price * item.qty;
+
+});
+
+const note =
+document.getElementById(
+"orderNote"
+).value;
+
+cart.forEach(item=>{
+
+const product =
+products.find(
+p=>p.id===item.id
+);
+
+if(product){
+
+product.stock -= item.qty;
+
+if(product.stock < 0){
+product.stock = 0;
+}
+
+}
+
+});
+
+const order = {
+
+orderNo:
+"ORD-" +
+Date.now(),
+
+date:
+new Date()
+.toLocaleString(),
+
+items:
+JSON.parse(
+JSON.stringify(cart)
+),
+
+note:note,
+
+total:total
+
+};
+
+orders.unshift(order);
+
+saveOrders();
+saveProducts();
+
+cart=[];
+
+document.getElementById(
+"orderNote"
+).value="";
+
+renderProducts();
+renderCart();
+renderOrders();
+renderDashboard();
+renderProductManage();
+
+alert("結帳成功 ☕");
+
+}
+
+function renderOrders(){
+
+const list =
+document.getElementById(
+"orderList"
+);
+
+list.innerHTML="";
+
+if(orders.length===0){
+
+list.innerHTML =
+'<div class="card">尚無訂單</div>';
+
+return;
+
+}
+
+orders.forEach((order,index)=>{
+
+let itemsHtml="";
+
+order.items.forEach(item=>{
+
+itemsHtml += `
+
+<div>
+
+${item.name}
+
+x
+
+${item.qty}
+
+${item.member ? '(會員價)' : ''}
+
+</div>
+
+`;
+
+});
+
+list.innerHTML += `
+
+<div class="order-card">
+
+<b>
+
+${order.orderNo}
+
+</b>
+
+<br><br>
+
+${order.date}
+
+<br><br>
+
+${itemsHtml}
+
+${
+order.note
+?
+'<br><b>備註：</b><br>'+order.note
+:
+''
+}
+
+<br><br>
+
+<b>
+
+NT$${order.total}
+
+</b>
+
+<br><br>
+
+<button
+class="btn btn-danger"
+onclick="deleteOrder(${index})">
+
+刪除訂單
+
+</button>
+
+</div>
+
+`;
+
+});
+
+}
+
+function deleteOrder(index){
+
+if(
+!confirm("確定刪除訂單？")
+){
+return;
+}
+
+orders.splice(index,1);
+
+saveOrders();
+
+renderOrders();
+
+renderDashboard();
+
+}
+
+renderCart();
 
 </script>
 
