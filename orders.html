@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>訂單紀錄</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#f5f5f5;
+padding:20px;
+}
+
+.header{
+font-size:28px;
+font-weight:bold;
+margin-bottom:20px;
+}
+
+.card{
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 2px 8px rgba(0,0,0,.1);
+margin-bottom:20px;
+}
+
+.order{
+padding:15px;
+border-bottom:1px solid #eee;
+}
+
+.total{
+font-size:32px;
+font-weight:bold;
+color:#16a34a;
+}
+
+button{
+padding:12px 20px;
+border:none;
+border-radius:6px;
+cursor:pointer;
+background:#dc2626;
+color:white;
+}
+
+.small{
+color:#666;
+font-size:14px;
+margin-top:5px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+📋 訂單紀錄
+</div>
+
+<div class="card">
+
+<h2>今日營收</h2>
+
+<br>
+
+<div class="total" id="todayTotal">
+NT$0
+</div>
+
+</div>
+
+<div class="card">
+
+<div style="display:flex;justify-content:space-between;align-items:center;">
+
+<h2>所有訂單</h2>
+
+<button onclick="clearOrders()">
+清空訂單
+</button>
+
+</div>
+
+<br>
+
+<div id="orderList"></div>
+
+</div>
+
+<script>
+
+let orders =
+JSON.parse(
+localStorage.getItem("orders")
+) || [];
+
+renderOrders();
+
+function renderOrders(){
+
+const orderList =
+document.getElementById("orderList");
+
+orderList.innerHTML="";
+
+let total = 0;
+
+orders.forEach(order=>{
+
+total += order.total;
+
+orderList.innerHTML += `
+<div class="order">
+
+<div>
+<strong>${order.orderNo}</strong>
+</div>
+
+<div class="small">
+${order.date}
+</div>
+
+<div>
+金額：NT$${order.total}
+</div>
+
+</div>
+`;
+
+});
+
+document.getElementById("todayTotal").innerHTML =
+`NT$${total}`;
+
+}
+
+function clearOrders(){
+
+if(!confirm("確定清空所有訂單？")){
+return;
+}
+
+localStorage.removeItem("orders");
+
+orders=[];
+
+renderOrders();
+
+}
+
+</script>
+
+</body>
+</html>
