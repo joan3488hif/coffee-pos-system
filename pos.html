@@ -1,10 +1,16 @@
+```html
 <!DOCTYPE html>
 <html lang="zh-TW">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>POS 收銀系統</title>
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width,initial-scale=1">
+
+<title>Coffee POS</title>
 
 <style>
 
@@ -12,137 +18,317 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Arial,sans-serif;
+font-family:
+-apple-system,
+BlinkMacSystemFont,
+sans-serif;
 }
 
 body{
-background:#f5f5f5;
+background:#F8F5F1;
 }
 
 .header{
-background:#1f2937;
+
+background:#4A3525;
+
+padding:28px 32px;
+
 color:white;
-padding:20px;
-font-size:24px;
-font-weight:bold;
+
+font-size:30px;
+
+font-weight:700;
+
 }
 
 .container{
+
 display:flex;
-gap:20px;
-padding:20px;
+
+gap:28px;
+
+padding:30px;
+
 }
 
 .products{
+
 flex:2;
+
 }
 
-.cart{
-flex:1;
-background:white;
-padding:20px;
-border-radius:10px;
-box-shadow:0 2px 8px rgba(0,0,0,.1);
+.products h2{
+
+color:#3B2B20;
+
+margin-bottom:18px;
+
+}
+
+.productList{
+
+display:grid;
+
+grid-template-columns:
+repeat(
+auto-fill,
+minmax(
+260px,
+1fr
+));
+
+gap:18px;
+
 }
 
 .product{
-width:100%;
-padding:20px;
-margin-bottom:15px;
-background:#2563eb;
-color:white;
+
+background:white;
+
 border:none;
-border-radius:10px;
-font-size:18px;
+
+padding:28px;
+
+border-radius:22px;
+
 cursor:pointer;
+
+text-align:left;
+
+box-shadow:
+0 8px 25px
+rgba(
+80,
+60,
+40,
+0.08
+);
+
 }
 
 .product:hover{
-background:#1d4ed8;
+
+transform:
+translateY(-3px);
+
+transition:.2s;
+
+}
+
+.product-name{
+
+font-size:22px;
+
+font-weight:700;
+
+color:#3B2B20;
+
+}
+
+.product-price{
+
+margin-top:10px;
+
+font-size:18px;
+
+color:#8A6546;
+
+}
+
+.cart{
+
+width:380px;
+
+background:white;
+
+padding:26px;
+
+border-radius:26px;
+
+height:fit-content;
+
+position:sticky;
+
+top:20px;
+
+box-shadow:
+0 8px 30px
+rgba(
+80,
+60,
+40,
+0.08
+);
+
+}
+
+.cart h2{
+
+color:#3B2B20;
+
+margin-bottom:20px;
+
 }
 
 .cart-item{
+
 display:flex;
-justify-content:space-between;
+
+justify-content:
+space-between;
+
 align-items:center;
-padding:10px;
-border-bottom:1px solid #ddd;
+
+padding:14px 0;
+
+border-bottom:
+1px solid #eee;
+
+}
+
+.item-name{
+
+font-weight:600;
+
+}
+
+.item-price{
+
+color:#8A6546;
+
+font-size:15px;
+
+margin-top:4px;
+
 }
 
 .delete-btn{
-background:#dc2626;
-color:white;
+
+background:#EFE6DC;
+
+color:#4A3525;
+
 border:none;
-padding:5px 10px;
-border-radius:5px;
+
+padding:8px 14px;
+
+border-radius:10px;
+
 cursor:pointer;
+
 }
 
 .total{
+
+font-size:32px;
+
+font-weight:700;
+
 margin-top:20px;
-font-size:24px;
-font-weight:bold;
+
+color:#3B2B20;
+
 }
 
-.action-btn{
+.action{
+
 width:100%;
-padding:15px;
-margin-top:15px;
+
+padding:18px;
+
 border:none;
-border-radius:8px;
+
+border-radius:16px;
+
 font-size:18px;
+
+margin-top:14px;
+
 cursor:pointer;
+
 }
 
 .checkout{
-background:#16a34a;
+
+background:#8A6546;
+
 color:white;
+
 }
 
 .clear{
-background:#6b7280;
-color:white;
+
+background:#E9DED1;
+
+color:#4A3525;
+
 }
 
 </style>
+
 </head>
 
 <body>
 
 <div class="header">
-☕ Coffee POS 收銀系統
+
+☕ Coffee POS
+
 </div>
 
 <div class="container">
 
 <div class="products">
 
-<h2>商品列表</h2>
+<h2>
 
-<br>
+今日商品
 
-<div id="productList"></div>
+</h2>
+
+<div
+class="productList"
+id="productList">
+
+</div>
 
 </div>
 
 <div class="cart">
 
-<h2>購物車</h2>
+<h2>
 
-<br>
+🛒 本次訂單
 
-<div id="cartList"></div>
+</h2>
 
-<div class="total" id="total">
-總金額：NT$0
+<div id="cartList">
+
 </div>
 
-<button class="action-btn checkout" onclick="checkout()">
-結帳
+<div
+class="total"
+id="total">
+
+NT$0
+
+</div>
+
+<button
+class="action checkout"
+onclick="checkout()">
+
+完成結帳
+
 </button>
 
-<button class="action-btn clear" onclick="clearCart()">
-清空購物車
+<button
+class="action clear"
+onclick="clearCart()">
+
+清空
+
 </button>
 
 </div>
@@ -151,24 +337,41 @@ color:white;
 
 <script>
 
-let cart = [];
+let cart=[];
 
-let products =
-JSON.parse(localStorage.getItem("products")) || [];
+let products=
+JSON.parse(
+localStorage.getItem(
+"products"
+)
+)||[];
 
-if(products.length === 0){
+if(products.length===0){
 
-products = [
+products=[
 
-{name:"美式咖啡",price:120},
-{name:"拿鐵",price:150},
-{name:"卡布奇諾",price:150}
+{
+name:"美式咖啡",
+price:120
+},
+
+{
+name:"拿鐵",
+price:150
+},
+
+{
+name:"卡布奇諾",
+price:150
+}
 
 ];
 
 localStorage.setItem(
 "products",
-JSON.stringify(products)
+JSON.stringify(
+products
+)
 );
 
 }
@@ -177,43 +380,78 @@ renderProducts();
 
 function renderProducts(){
 
-const container =
-document.getElementById("productList");
+const container=
+document.getElementById(
+"productList"
+);
 
-container.innerHTML = "";
+container.innerHTML="";
 
-products.forEach(product=>{
+products.forEach(p=>{
 
-container.innerHTML += `
+container.innerHTML+=`
+
 <button
 class="product"
-onclick="addItem('${product.name}',${product.price})">
 
-☕ ${product.name}<br>
-NT$${product.price}
+onclick="
+addItem(
+'${p.name}',
+${p.price}
+)
+">
+
+<div
+class="product-name">
+
+☕
+
+${p.name}
+
+</div>
+
+<div
+class="product-price">
+
+NT$
+
+${p.price}
+
+</div>
 
 </button>
+
 `;
 
 });
 
 }
 
-function addItem(name,price){
+function addItem(
+name,
+price
+){
 
-const existing =
-cart.find(item=>item.name===name);
+const exist=
+cart.find(
+i=>
+i.name===name
+);
 
-if(existing){
+if(exist){
 
-existing.qty++;
+exist.qty++;
 
 }else{
 
 cart.push({
-name:name,
-price:price,
+
+name,
+
+price,
+
 qty:1
+
 });
 
 }
@@ -222,11 +460,14 @@ renderCart();
 
 }
 
-function removeItem(name){
+function removeItem(
+name
+){
 
-cart =
+cart=
 cart.filter(
-item=>item.name!==name
+i=>
+i.name!==name
 );
 
 renderCart();
@@ -235,38 +476,74 @@ renderCart();
 
 function renderCart(){
 
-const cartList =
-document.getElementById("cartList");
+const list=
+document.getElementById(
+"cartList"
+);
 
-cartList.innerHTML="";
+list.innerHTML="";
 
 let total=0;
 
 cart.forEach(item=>{
 
-total += item.price * item.qty;
+total+=
+item.price*
+item.qty;
 
-cartList.innerHTML += `
-<div class="cart-item">
+list.innerHTML+=`
+
+<div
+class="cart-item">
 
 <div>
-${item.name}<br>
-NT$${item.price} × ${item.qty}
+
+<div
+class="item-name">
+
+${item.name}
+
+</div>
+
+<div
+class="item-price">
+
+NT$
+${item.price}
+
+×
+
+${item.qty}
+
+</div>
+
 </div>
 
 <button
 class="delete-btn"
-onclick="removeItem('${item.name}')">
+
+onclick="
+removeItem(
+'${item.name}'
+)
+">
+
 刪除
+
 </button>
 
 </div>
+
 `;
 
 });
 
-document.getElementById("total").innerHTML =
-`總金額：NT$${total}`;
+document.getElementById(
+"total"
+).innerHTML=
+
+"NT$"+
+total;
 
 }
 
@@ -280,52 +557,63 @@ renderCart();
 
 function checkout(){
 
-if(cart.length===0){
+if(
+cart.length===0
+){
 
-alert("購物車是空的");
+alert(
+"購物車是空的"
+);
 
 return;
 
 }
 
-let total = 0;
+let total=0;
 
-cart.forEach(item=>{
+cart.forEach(i=>{
 
-total += item.price * item.qty;
+total+=
+i.price*
+i.qty;
 
 });
 
-const orderNo =
-"ORD-" + Date.now();
-
-let orders =
+let orders=
 JSON.parse(
-localStorage.getItem("orders")
-) || [];
+localStorage.getItem(
+"orders"
+)
+)||[];
 
 orders.push({
 
-orderNo: orderNo,
+orderNo:
+"ORD-"+
+Date.now(),
 
-date: new Date().toLocaleString(),
+date:
+new Date()
+.toLocaleString(),
 
-total: total,
+total,
 
-items: cart
+items:cart
 
 });
 
 localStorage.setItem(
+
 "orders",
-JSON.stringify(orders)
+
+JSON.stringify(
+orders
+)
+
 );
 
 alert(
-`結帳成功！
-
-訂單編號：
-${orderNo}`
+"結帳成功 ☕"
 );
 
 cart=[];
@@ -337,4 +625,6 @@ renderCart();
 </script>
 
 </body>
+
 </html>
+```
