@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Coffee POS</title>
+<title>Coffee POS System</title>
 
 <style>
 
@@ -54,28 +54,42 @@ background:#4b5563;
 .content{
 flex:1;
 padding:30px;
+overflow:auto;
 }
 
-.cards{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
+.product{
+width:100%;
+padding:20px;
+margin-bottom:15px;
+background:#2563eb;
+color:white;
+border:none;
+border-radius:10px;
+cursor:pointer;
+font-size:18px;
 }
 
-.card{
+.product:hover{
+background:#1d4ed8;
+}
+
+.cart-item{
 background:white;
-padding:25px;
-border-radius:12px;
-box-shadow:0 2px 10px rgba(0,0,0,.08);
+padding:12px;
+margin-bottom:10px;
+border-radius:10px;
+box-shadow:0 2px 5px rgba(0,0,0,.1);
 }
 
-.number{
-font-size:32px;
-font-weight:bold;
-margin-top:10px;
+.total-box{
+margin-top:20px;
+padding:20px;
+background:white;
+border-radius:10px;
 }
 
 </style>
+
 </head>
 
 <body>
@@ -89,56 +103,94 @@ margin-top:10px;
 </div>
 
 <div class="menu">
-
 <a href="#">POS收銀</a>
-
 <a href="#">商品管理</a>
-
 <a href="#">庫存管理</a>
-
 <a href="#">會員管理</a>
-
 <a href="#">訂單管理</a>
-
 <a href="#">財務報表</a>
-
 </div>
 
 </div>
 
 <div class="content">
 
-<h1>儀表板</h1>
+<h1>POS 收銀</h1>
 
 <br>
 
-<div class="cards">
+<div style="display:flex;gap:30px;">
 
-<div class="card">
-今日營收
-<div class="number">$12,500</div>
-</div>
+<div style="flex:2;">
 
-<div class="card">
-今日訂單
-<div class="number">38</div>
-</div>
+<h2>商品列表</h2>
 
-<div class="card">
-會員數
-<div class="number">156</div>
-</div>
+<br>
 
-<div class="card">
-低庫存商品
-<div class="number">5</div>
-</div>
+<button class="product" onclick="addItem('美式咖啡',120)">
+☕ 美式咖啡 NT$120
+</button>
 
-</div>
+<button class="product" onclick="addItem('拿鐵',150)">
+🥛 拿鐵 NT$150
+</button>
 
-</div>
+<button class="product" onclick="addItem('卡布奇諾',150)">
+☕ 卡布奇諾 NT$150
+</button>
+
+<button class="product" onclick="addItem('濾掛咖啡',300)">
+📦 濾掛咖啡 NT$300
+</button>
 
 </div>
+
+<div style="flex:1;">
+
+<h2>購物車</h2>
+
+<br>
+
+<div id="cart"></div>
+
+<div class="total-box">
+
+<h2 id="total">
+總金額：NT$0
+</h2>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+let total = 0;
+
+function addItem(name,price){
+
+const cart =
+document.getElementById("cart");
+
+cart.innerHTML += `
+<div class="cart-item">
+${name} - NT$${price}
+</div>
+`;
+
+total += price;
+
+document.getElementById("total").innerHTML =
+`總金額：NT$${total}`;
+}
+
+</script>
 
 </body>
 </html>
