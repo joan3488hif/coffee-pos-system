@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,140 +8,132 @@
 
 <style>
 
-body{
+*{
 margin:0;
-background:#f3f4f6;
-font-family:Arial;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
 }
 
-.header{
+body{
+background:#f5f5f5;
+}
+
+.wrapper{
+display:flex;
+height:100vh;
+}
+
+.sidebar{
+width:250px;
 background:#1f2937;
 color:white;
-padding:24px;
-font-size:28px;
-font-weight:bold;
+padding:20px;
 }
 
-.grid{
+.logo{
+font-size:24px;
+font-weight:bold;
+margin-bottom:30px;
+}
 
-display:grid;
+.menu a{
+display:block;
+padding:15px;
+margin-bottom:10px;
+background:#374151;
+border-radius:8px;
+color:white;
+text-decoration:none;
+}
 
-grid-template-columns:
-repeat(
-auto-fit,
-minmax(
-220px,
-1fr
-));
+.menu a:hover{
+background:#4b5563;
+}
 
-gap:20px;
-
+.content{
+flex:1;
 padding:30px;
+}
 
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
 }
 
 .card{
-
 background:white;
-
-padding:30px;
-
+padding:25px;
 border-radius:12px;
-
-box-shadow:
-0 4px 12px
-rgba(
-0,
-0,
-0,
-0.08
-);
-
-text-align:center;
-
+box-shadow:0 2px 10px rgba(0,0,0,.08);
 }
 
-.card:hover{
-
-transform:
-translateY(-4px);
-
-transition:.2s;
-
-}
-
-.title{
-
-font-size:20px;
-
-font-weight:700;
-
-margin-bottom:10px;
-
-}
-
-.sub{
-
-color:#777;
-
+.number{
+font-size:32px;
+font-weight:bold;
+margin-top:10px;
 }
 
 </style>
-
 </head>
 
 <body>
 
-<div class="header">
-☕ Coffee POS System
+<div class="wrapper">
+
+<div class="sidebar">
+
+<div class="logo">
+☕ Coffee POS
 </div>
 
-<div class="grid">
+<div class="menu">
+
+<a href="#">POS收銀</a>
+
+<a href="#">商品管理</a>
+
+<a href="#">庫存管理</a>
+
+<a href="#">會員管理</a>
+
+<a href="#">訂單管理</a>
+
+<a href="#">財務報表</a>
+
+</div>
+
+</div>
+
+<div class="content">
+
+<h1>儀表板</h1>
+
+<br>
+
+<div class="cards">
 
 <div class="card">
-
-<div class="title">
-POS 收銀
-</div>
-
-<div class="sub">
-建立訂單
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="title">
-商品管理
-</div>
-
-<div class="sub">
-管理商品資料
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="title">
-會員管理
-</div>
-
-<div class="sub">
-管理會員
-</div>
-
+今日營收
+<div class="number">$12,500</div>
 </div>
 
 <div class="card">
-
-<div class="title">
-庫存管理
+今日訂單
+<div class="number">38</div>
 </div>
 
-<div class="sub">
-查看庫存
+<div class="card">
+會員數
+<div class="number">156</div>
+</div>
+
+<div class="card">
+低庫存商品
+<div class="number">5</div>
+</div>
+
 </div>
 
 </div>
@@ -150,5 +141,4 @@ POS 收銀
 </div>
 
 </body>
-
 </html>
