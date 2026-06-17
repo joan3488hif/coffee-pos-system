@@ -1,17 +1,21 @@
+```html
 <!DOCTYPE html>
 <html lang="zh-TW">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-name="viewport"
-content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>Coffee POS</title>
 
 <style>
+
+:root{
+--bg:#F6F1EB;
+--card:#FFFFFF;
+--brown:#6F4E37;
+--dark:#3B2B20;
+--light:#C8B6A6;
+}
 
 *{
 margin:0;
@@ -20,107 +24,28 @@ box-sizing:border-box;
 font-family:
 -apple-system,
 BlinkMacSystemFont,
+"Segoe UI",
 sans-serif;
 }
 
 body{
-
-background:#F8F5F1;
-
+background:var(--bg);
+padding-bottom:90px;
 }
 
-.sidebar{
-
-position:fixed;
-
-left:0;
-
-top:0;
-
-width:260px;
-
-height:100vh;
-
-background:#4A3525;
-
-padding:30px;
-
-}
-
-.logo{
-
-font-size:28px;
-
-font-weight:700;
-
-color:white;
-
-margin-bottom:40px;
-
-}
-
-.menu a{
-
-display:block;
-
-padding:18px;
-
-margin-bottom:14px;
-
-border-radius:14px;
-
-background:
-rgba(
-255,
-255,
-255,
-0.08
-);
-
-text-decoration:none;
-
-color:white;
-
-font-size:18px;
-
-}
-
-.menu a:hover{
-
-background:
-rgba(
-255,
-255,
-255,
-0.16
-);
-
-}
-
-.content{
-
-margin-left:260px;
-
-padding:40px;
-
+.header{
+padding:30px 24px;
 }
 
 .title{
-
-font-size:40px;
-
+font-size:34px;
 font-weight:700;
-
-color:#3B2B20;
-
+color:var(--dark);
 }
 
 .subtitle{
-
-color:#7A6B5D;
-
 margin-top:8px;
-
+color:#8a7b6f;
 }
 
 .cards{
@@ -131,59 +56,62 @@ grid-template-columns:
 repeat(
 auto-fit,
 minmax(
-260px,
+220px,
 1fr
 ));
 
-gap:20px;
+gap:16px;
 
-margin-top:35px;
-
+padding:0 24px;
 }
 
 .card{
 
-background:white;
+background:var(--card);
 
-padding:28px;
+padding:24px;
 
 border-radius:22px;
 
 box-shadow:
-0 8px 30px
+0 8px 24px
 rgba(
-80,
-60,
-40,
-0.08
+0,
+0,
+0,
+0.06
 );
 
 }
 
-.label{
+.card-label{
 
-font-size:15px;
+font-size:14px;
 
-color:#8A7A6A;
-
+color:#888;
 }
 
-.value{
+.card-value{
 
-font-size:42px;
-
-margin-top:10px;
+font-size:36px;
 
 font-weight:700;
 
-color:#3B2B20;
+margin-top:10px;
 
+color:var(--dark);
 }
 
 .quick{
 
-margin-top:40px;
+padding:24px;
+}
 
+.quick h2{
+
+margin-bottom:18px;
+
+color:var(--dark);
 }
 
 .quick-grid{
@@ -194,95 +122,123 @@ grid-template-columns:
 repeat(
 auto-fit,
 minmax(
-230px,
+160px,
 1fr
 ));
 
-gap:18px;
-
-margin-top:20px;
+gap:16px;
 
 }
 
 .action{
 
-padding:26px;
+display:flex;
 
-border-radius:20px;
+flex-direction:column;
 
-background:
-linear-gradient(
-135deg,
-#8A6546,
-#B1825C
-);
+justify-content:center;
 
-color:white;
+align-items:center;
+
+height:120px;
+
+background:white;
 
 text-decoration:none;
 
-font-size:22px;
+border-radius:22px;
 
-text-align:center;
+color:var(--dark);
 
+box-shadow:
+0 8px 24px
+rgba(
+0,
+0,
+0,
+0.06
+);
+
+font-size:18px;
+
+font-weight:600;
 }
 
-.action:hover{
+.icon{
 
-transform:
-translateY(-4px);
+font-size:32px;
 
-transition:.2s;
+margin-bottom:10px;
+}
 
+.bottom-nav{
+
+position:fixed;
+
+bottom:0;
+
+left:0;
+
+right:0;
+
+height:72px;
+
+background:white;
+
+display:flex;
+
+justify-content:space-around;
+
+align-items:center;
+
+box-shadow:
+0 -2px 20px
+rgba(
+0,
+0,
+0,
+0.08
+);
+}
+
+.bottom-nav a{
+
+text-decoration:none;
+
+color:var(--brown);
+
+font-size:14px;
+
+font-weight:600;
+
+display:flex;
+
+flex-direction:column;
+
+align-items:center;
+}
+
+.bottom-nav span{
+
+font-size:24px;
+
+margin-bottom:4px;
 }
 
 </style>
-
 </head>
 
 <body>
 
-<div class="sidebar">
-
-<div class="logo">
-
-☕ Coffee POS
-
-</div>
-
-<div class="menu">
-
-<a href="index.html">
-首頁
-</a>
-
-<a href="pos.html">
-收銀
-</a>
-
-<a href="products.html">
-商品
-</a>
-
-<a href="orders.html">
-訂單
-</a>
-
-</div>
-
-</div>
-
-<div class="content">
+<div class="header">
 
 <div class="title">
-
-午安 ☕
-
+☕ Coffee POS
 </div>
 
 <div class="subtitle">
-
-今天的咖啡店營運狀況
+今日營運概況
+</div>
 
 </div>
 
@@ -290,54 +246,36 @@ transition:.2s;
 
 <div class="card">
 
-<div class="label">
-
+<div class="card-label">
 今日營收
-
 </div>
 
-<div
-class="value"
-id="sales">
-
+<div class="card-value" id="sales">
 NT$0
-
 </div>
 
 </div>
 
 <div class="card">
 
-<div class="label">
-
+<div class="card-label">
 訂單數量
-
 </div>
 
-<div
-class="value"
-id="orders">
-
+<div class="card-value" id="orders">
 0
-
 </div>
 
 </div>
 
 <div class="card">
 
-<div class="label">
-
+<div class="card-label">
 商品數量
-
 </div>
 
-<div
-class="value"
-id="products">
-
+<div class="card-value" id="products">
 0
-
 </div>
 
 </div>
@@ -347,43 +285,72 @@ id="products">
 <div class="quick">
 
 <h2>
-
 快速操作
-
 </h2>
 
 <div class="quick-grid">
 
 <a
-class="action"
-href="pos.html">
+href="pos.html"
+class="action">
 
+<div class="icon">
 🛒
+</div>
+
 開始收銀
 
 </a>
 
 <a
-class="action"
-href="products.html">
+href="products.html"
+class="action">
 
+<div class="icon">
 📦
+</div>
+
 商品管理
 
 </a>
 
 <a
-class="action"
-href="orders.html">
+href="orders.html"
+class="action">
 
+<div class="icon">
 📋
-查看訂單
+</div>
+
+訂單管理
 
 </a>
 
 </div>
 
 </div>
+
+<div class="bottom-nav">
+
+<a href="index.html">
+<span>🏠</span>
+首頁
+</a>
+
+<a href="pos.html">
+<span>🛒</span>
+收銀
+</a>
+
+<a href="products.html">
+<span>📦</span>
+商品
+</a>
+
+<a href="orders.html">
+<span>📋</span>
+訂單
+</a>
 
 </div>
 
@@ -407,36 +374,28 @@ let sales = 0;
 
 orders.forEach(order=>{
 
-sales +=
-order.total;
+sales += order.total;
 
 });
 
-document
-.getElementById(
+document.getElementById(
 "sales"
-)
-.innerHTML =
-"NT$"+
-sales
-.toLocaleString();
+).innerHTML =
+"NT$" +
+sales.toLocaleString();
 
-document
-.getElementById(
+document.getElementById(
 "orders"
-)
-.innerHTML =
+).innerHTML =
 orders.length;
 
-document
-.getElementById(
+document.getElementById(
 "products"
-)
-.innerHTML =
+).innerHTML =
 products.length;
 
 </script>
 
 </body>
-
 </html>
+```
