@@ -154,9 +154,7 @@ color:white;
 let cart = [];
 
 let products =
-JSON.parse(
-localStorage.getItem("products")
-) || [];
+JSON.parse(localStorage.getItem("products")) || [];
 
 if(products.length === 0){
 
@@ -290,8 +288,38 @@ return;
 
 }
 
+let total = 0;
+
+cart.forEach(item=>{
+
+total += item.price * item.qty;
+
+});
+
 const orderNo =
 "ORD-" + Date.now();
+
+let orders =
+JSON.parse(
+localStorage.getItem("orders")
+) || [];
+
+orders.push({
+
+orderNo: orderNo,
+
+date: new Date().toLocaleString(),
+
+total: total,
+
+items: cart
+
+});
+
+localStorage.setItem(
+"orders",
+JSON.stringify(orders)
+);
 
 alert(
 `結帳成功！
