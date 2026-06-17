@@ -117,25 +117,11 @@ color:white;
 
 <div class="products">
 
-<button class="product" onclick="addItem('美式咖啡',120)">
-☕ 美式咖啡 NT$120
-</button>
+<h2>商品列表</h2>
 
-<button class="product" onclick="addItem('拿鐵',150)">
-🥛 拿鐵 NT$150
-</button>
+<br>
 
-<button class="product" onclick="addItem('卡布奇諾',150)">
-☕ 卡布奇諾 NT$150
-</button>
-
-<button class="product" onclick="addItem('摩卡',180)">
-🍫 摩卡 NT$180
-</button>
-
-<button class="product" onclick="addItem('濾掛咖啡10入',300)">
-📦 濾掛咖啡10入 NT$300
-</button>
+<div id="productList"></div>
 
 </div>
 
@@ -167,10 +153,58 @@ color:white;
 
 let cart = [];
 
-function addItem(name, price){
+let products =
+JSON.parse(
+localStorage.getItem("products")
+) || [];
+
+if(products.length === 0){
+
+products = [
+
+{name:"美式咖啡",price:120},
+{name:"拿鐵",price:150},
+{name:"卡布奇諾",price:150}
+
+];
+
+localStorage.setItem(
+"products",
+JSON.stringify(products)
+);
+
+}
+
+renderProducts();
+
+function renderProducts(){
+
+const container =
+document.getElementById("productList");
+
+container.innerHTML = "";
+
+products.forEach(product=>{
+
+container.innerHTML += `
+<button
+class="product"
+onclick="addItem('${product.name}',${product.price})">
+
+☕ ${product.name}<br>
+NT$${product.price}
+
+</button>
+`;
+
+});
+
+}
+
+function addItem(name,price){
 
 const existing =
-cart.find(item => item.name === name);
+cart.find(item=>item.name===name);
 
 if(existing){
 
@@ -179,23 +213,26 @@ existing.qty++;
 }else{
 
 cart.push({
-name,
-price,
+name:name,
+price:price,
 qty:1
 });
 
 }
 
 renderCart();
+
 }
 
 function removeItem(name){
 
-cart = cart.filter(
-item => item.name !== name
+cart =
+cart.filter(
+item=>item.name!==name
 );
 
 renderCart();
+
 }
 
 function renderCart(){
@@ -203,9 +240,9 @@ function renderCart(){
 const cartList =
 document.getElementById("cartList");
 
-cartList.innerHTML = "";
+cartList.innerHTML="";
 
-let total = 0;
+let total=0;
 
 cart.forEach(item=>{
 
@@ -232,6 +269,7 @@ onclick="removeItem('${item.name}')">
 
 document.getElementById("total").innerHTML =
 `總金額：NT$${total}`;
+
 }
 
 function clearCart(){
@@ -239,6 +277,7 @@ function clearCart(){
 cart=[];
 
 renderCart();
+
 }
 
 function checkout(){
@@ -248,19 +287,23 @@ if(cart.length===0){
 alert("購物車是空的");
 
 return;
+
 }
 
 const orderNo =
-"ORD-" +
-Date.now();
+"ORD-" + Date.now();
 
 alert(
-`結帳成功\n\n訂單編號：${orderNo}`
+`結帳成功！
+
+訂單編號：
+${orderNo}`
 );
 
 cart=[];
 
 renderCart();
+
 }
 
 </script>
