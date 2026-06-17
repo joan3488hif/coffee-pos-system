@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>POS 收銀系統</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#f5f5f5;
+}
+
+.header{
+background:#1f2937;
+color:white;
+padding:20px;
+font-size:24px;
+font-weight:bold;
+}
+
+.container{
+display:flex;
+gap:20px;
+padding:20px;
+}
+
+.products{
+flex:2;
+}
+
+.cart{
+flex:1;
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+
+.product{
+width:100%;
+padding:20px;
+margin-bottom:15px;
+background:#2563eb;
+color:white;
+border:none;
+border-radius:10px;
+font-size:18px;
+cursor:pointer;
+}
+
+.product:hover{
+background:#1d4ed8;
+}
+
+.cart-item{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:10px;
+border-bottom:1px solid #ddd;
+}
+
+.delete-btn{
+background:#dc2626;
+color:white;
+border:none;
+padding:5px 10px;
+border-radius:5px;
+cursor:pointer;
+}
+
+.total{
+margin-top:20px;
+font-size:24px;
+font-weight:bold;
+}
+
+.action-btn{
+width:100%;
+padding:15px;
+margin-top:15px;
+border:none;
+border-radius:8px;
+font-size:18px;
+cursor:pointer;
+}
+
+.checkout{
+background:#16a34a;
+color:white;
+}
+
+.clear{
+background:#6b7280;
+color:white;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+☕ Coffee POS 收銀系統
+</div>
+
+<div class="container">
+
+<div class="products">
+
+<button class="product" onclick="addItem('美式咖啡',120)">
+☕ 美式咖啡 NT$120
+</button>
+
+<button class="product" onclick="addItem('拿鐵',150)">
+🥛 拿鐵 NT$150
+</button>
+
+<button class="product" onclick="addItem('卡布奇諾',150)">
+☕ 卡布奇諾 NT$150
+</button>
+
+<button class="product" onclick="addItem('摩卡',180)">
+🍫 摩卡 NT$180
+</button>
+
+<button class="product" onclick="addItem('濾掛咖啡10入',300)">
+📦 濾掛咖啡10入 NT$300
+</button>
+
+</div>
+
+<div class="cart">
+
+<h2>購物車</h2>
+
+<br>
+
+<div id="cartList"></div>
+
+<div class="total" id="total">
+總金額：NT$0
+</div>
+
+<button class="action-btn checkout" onclick="checkout()">
+結帳
+</button>
+
+<button class="action-btn clear" onclick="clearCart()">
+清空購物車
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+let cart = [];
+
+function addItem(name, price){
+
+const existing =
+cart.find(item => item.name === name);
+
+if(existing){
+
+existing.qty++;
+
+}else{
+
+cart.push({
+name,
+price,
+qty:1
+});
+
+}
+
+renderCart();
+}
+
+function removeItem(name){
+
+cart = cart.filter(
+item => item.name !== name
+);
+
+renderCart();
+}
+
+function renderCart(){
+
+const cartList =
+document.getElementById("cartList");
+
+cartList.innerHTML = "";
+
+let total = 0;
+
+cart.forEach(item=>{
+
+total += item.price * item.qty;
+
+cartList.innerHTML += `
+<div class="cart-item">
+
+<div>
+${item.name}<br>
+NT$${item.price} × ${item.qty}
+</div>
+
+<button
+class="delete-btn"
+onclick="removeItem('${item.name}')">
+刪除
+</button>
+
+</div>
+`;
+
+});
+
+document.getElementById("total").innerHTML =
+`總金額：NT$${total}`;
+}
+
+function clearCart(){
+
+cart=[];
+
+renderCart();
+}
+
+function checkout(){
+
+if(cart.length===0){
+
+alert("購物車是空的");
+
+return;
+}
+
+const orderNo =
+"ORD-" +
+Date.now();
+
+alert(
+`結帳成功\n\n訂單編號：${orderNo}`
+);
+
+cart=[];
+
+renderCart();
+}
+
+</script>
+
+</body>
+</html>
