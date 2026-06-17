@@ -1,8 +1,14 @@
+```html
 <!DOCTYPE html>
 <html lang="zh-TW">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta
+name="viewport"
+content="width=device-width,initial-scale=1">
 
 <title>商品管理</title>
 
@@ -12,76 +18,175 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Arial,sans-serif;
+font-family:
+-apple-system,
+BlinkMacSystemFont,
+sans-serif;
 }
 
 body{
-background:#f5f5f5;
-padding:20px;
+background:#F8F5F1;
 }
 
 .header{
-font-size:28px;
-font-weight:bold;
-margin-bottom:20px;
+
+background:#4A3525;
+
+padding:28px 32px;
+
+color:white;
+
+font-size:30px;
+
+font-weight:700;
+
+}
+
+.container{
+
+max-width:1200px;
+
+margin:auto;
+
+padding:30px;
+
 }
 
 .card{
+
 background:white;
-padding:20px;
-border-radius:10px;
-box-shadow:0 2px 8px rgba(0,0,0,.1);
+
+padding:25px;
+
+border-radius:24px;
+
+box-shadow:
+0 8px 30px
+rgba(
+80,
+60,
+40,
+0.08
+);
+
+margin-bottom:25px;
+
+}
+
+h2{
+
+color:#3B2B20;
+
 margin-bottom:20px;
+
 }
 
 input{
-width:100%;
-padding:12px;
-margin-bottom:10px;
-border:1px solid #ddd;
-border-radius:6px;
-}
 
-button{
-padding:12px 20px;
-border:none;
-border-radius:6px;
-cursor:pointer;
+width:100%;
+
+padding:16px;
+
+margin-bottom:14px;
+
+border:
+1px solid #ddd;
+
+border-radius:14px;
+
+font-size:16px;
+
 }
 
 .add-btn{
-background:#2563eb;
+
+background:#8A6546;
+
 color:white;
+
+border:none;
+
+padding:16px 22px;
+
+border-radius:14px;
+
+cursor:pointer;
+
+font-size:16px;
+
 }
 
-.delete-btn{
-background:#dc2626;
-color:white;
-}
+.product{
 
-.item{
 display:flex;
-justify-content:space-between;
+
+justify-content:
+space-between;
+
 align-items:center;
-padding:12px;
-border-bottom:1px solid #eee;
+
+padding:18px 0;
+
+border-bottom:
+1px solid #eee;
+
+}
+
+.name{
+
+font-size:18px;
+
+font-weight:600;
+
+color:#3B2B20;
+
 }
 
 .price{
-font-weight:bold;
-color:#2563eb;
+
+margin-top:6px;
+
+color:#8A6546;
+
+}
+
+.delete-btn{
+
+background:#EFE6DC;
+
+border:none;
+
+padding:10px 14px;
+
+border-radius:10px;
+
+cursor:pointer;
+
+color:#4A3525;
+
 }
 
 </style>
+
 </head>
 
 <body>
 
 <div class="header">
+
 📦 商品管理
+
 </div>
 
+<div class="container">
+
 <div class="card">
+
+<h2>
+
+新增商品
+
+</h2>
 
 <input
 id="productName"
@@ -95,18 +200,27 @@ placeholder="售價">
 <button
 class="add-btn"
 onclick="addProduct()">
+
 新增商品
+
 </button>
 
 </div>
 
 <div class="card">
 
-<h2>商品列表</h2>
+<h2>
 
-<br>
+商品列表
 
-<div id="productList"></div>
+</h2>
+
+<div
+id="productList">
+
+</div>
+
+</div>
 
 </div>
 
@@ -114,100 +228,186 @@ onclick="addProduct()">
 
 let products =
 JSON.parse(
-localStorage.getItem("products")
-) || [
+localStorage.getItem(
+"products"
+)
+) || [];
 
-{name:"美式咖啡",price:120},
-{name:"拿鐵",price:150},
-{name:"卡布奇諾",price:150},
-{name:"濾掛咖啡",price:300}
+if(products.length===0){
+
+products=[
+
+{
+name:"美式咖啡",
+price:120
+},
+
+{
+name:"拿鐵",
+price:150
+},
+
+{
+name:"卡布奇諾",
+price:150
+}
 
 ];
 
 saveProducts();
+
+}
+
 renderProducts();
 
 function saveProducts(){
 
 localStorage.setItem(
+
 "products",
-JSON.stringify(products)
+
+JSON.stringify(
+products
+)
+
 );
 
 }
 
 function addProduct(){
 
-const name =
-document.getElementById("productName").value;
+const name=
+document
+.getElementById(
+"productName"
+)
+.value
+.trim();
 
-const price =
+const price=
 parseInt(
-document.getElementById("productPrice").value
+document
+.getElementById(
+"productPrice"
+)
+.value
 );
 
-if(!name || !price){
+if(
+!name ||
+!price
+){
 
-alert("請輸入商品名稱與價格");
+alert(
+"請輸入商品名稱與售價"
+);
 
 return;
+
 }
 
 products.push({
+
 name,
+
 price
+
 });
 
 saveProducts();
 
 renderProducts();
 
-document.getElementById("productName").value="";
-document.getElementById("productPrice").value="";
+document
+.getElementById(
+"productName"
+)
+.value="";
+
+document
+.getElementById(
+"productPrice"
+)
+.value="";
+
 }
 
-function deleteProduct(index){
+function deleteProduct(
+index
+){
 
-if(!confirm("確定刪除？")){
+if(
+!confirm(
+"確定刪除？"
+)
+){
 return;
 }
 
-products.splice(index,1);
+products.splice(
+index,
+1
+);
 
 saveProducts();
 
 renderProducts();
+
 }
 
 function renderProducts(){
 
-const list =
-document.getElementById("productList");
+const list=
+document
+.getElementById(
+"productList"
+);
 
 list.innerHTML="";
 
-products.forEach((item,index)=>{
+products.forEach(
+
+(item,index)=>{
 
 list.innerHTML += `
-<div class="item">
+
+<div
+class="product">
 
 <div>
 
-<div>${item.name}</div>
+<div
+class="name">
 
-<div class="price">
-NT$${item.price}
+${item.name}
+
+</div>
+
+<div
+class="price">
+
+NT$
+${item.price}
+
 </div>
 
 </div>
 
 <button
 class="delete-btn"
-onclick="deleteProduct(${index})">
+
+onclick="
+deleteProduct(
+${index}
+)
+">
+
 刪除
+
 </button>
 
 </div>
+
 `;
 
 });
@@ -217,4 +417,6 @@ onclick="deleteProduct(${index})">
 </script>
 
 </body>
+
 </html>
+```
