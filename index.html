@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Coffee POS</title>
+
+<style>
+
+body{
+margin:0;
+background:#f3f4f6;
+font-family:Arial;
+}
+
+.header{
+background:#1f2937;
+color:white;
+padding:24px;
+font-size:28px;
+font-weight:bold;
+}
+
+.grid{
+
+display:grid;
+
+grid-template-columns:
+repeat(
+auto-fit,
+minmax(
+220px,
+1fr
+));
+
+gap:20px;
+
+padding:30px;
+
+}
+
+.card{
+
+background:white;
+
+padding:30px;
+
+border-radius:12px;
+
+box-shadow:
+0 4px 12px
+rgba(
+0,
+0,
+0,
+0.08
+);
+
+text-align:center;
+
+}
+
+.card:hover{
+
+transform:
+translateY(-4px);
+
+transition:.2s;
+
+}
+
+.title{
+
+font-size:20px;
+
+font-weight:700;
+
+margin-bottom:10px;
+
+}
+
+.sub{
+
+color:#777;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+☕ Coffee POS System
+</div>
+
+<div class="grid">
+
+<div class="card">
+
+<div class="title">
+POS 收銀
+</div>
+
+<div class="sub">
+建立訂單
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="title">
+商品管理
+</div>
+
+<div class="sub">
+管理商品資料
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="title">
+會員管理
+</div>
+
+<div class="sub">
+管理會員
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="title">
+庫存管理
+</div>
+
+<div class="sub">
+查看庫存
+</div>
+
+</div>
+
+</div>
+
+</body>
+
+</html>
